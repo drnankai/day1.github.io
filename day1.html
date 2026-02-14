@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>博士太郎の挑戦状 - 灯台本丸カオスミステリー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Shippori Mincho", serif;
+      background-color: #655954;
+      color: #080054;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      background: rgba(250, 247, 240, 0.1);
+      border: 2px solid #c4a46a;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(196, 164, 106, 0.4);
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #e6d3a3;
+      margin-bottom: 1rem;
+      letter-spacing: 0.15em;
+      border-bottom: 1px solid #c4a46a;
+      padding-bottom: 0.5rem;
+    }
+
+    .intro-story {
+      font-size: 0.95rem;
+      color: #f2ede2;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .story {
+      font-size: 0.95rem;
+      color: #f2ede2;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      opacity: 0;               /* ←最初は透明 */
+      transition: opacity 1s ease;
+    }
+
+    .story.show {
+       opacity: 1;               /* ←表示状態 */
+    }
+
+    .image-fake {
+      width: 100%;
+      height: 180px;
+      background: repeating-linear-gradient(
+        45deg,
+        #3a2a1c,
+        #3a2a1c 10px,
+        #4e3a29 10px,
+        #4e3a29 20px
+      );
+      border: 1px solid #c4a46a;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c4a46a;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input[type="text"] {
+      padding: 0.8rem;
+      border: 1px solid #c4a46a;
+      border-radius: 0.5rem;
+      background-color: rgba(255,255,255,0.1);
+      color: #f8f5f2;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    input[type="text"]::placeholder {
+      color: #d4c5a8;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #e6d3a3;
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    button {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #c4a46a;
+      border-radius: 0.5rem;
+      background-color: #4b2e1f;
+      color: #f8f5f2;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      transition: all 0.2s ease;
+      font-family: "Shippori Mincho", serif;
+    }
+
+    button:hover {
+      background-color: #7a5236;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: #e6d3a3;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #bda57a;
+      opacity: 0.8;
+    }
+
+    .day-buttons {
+      margin-top: 2rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .day-buttons button {
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #c4a46a;
+      background-color: #2d1a11;
+      color: #bda57a;
+      transition: all 0.2s;
+      font-family: "Shippori Mincho", serif;
+    }
+
+    .day-buttons button:hover {
+      background-color: #7a5236;
+      color: #f8f5f2;
+    }
+
+    .active-day {
+        background-color: #4b2e1f; /* ← 現在のページ（明るめ） */
+        color: #e6d3a3;
+        box-shadow: 0 0 10px rgba(230, 211, 163, 0.4);
+    }
+
+    .small-message {
+      font-size: 0.8rem;
+      color: #d4c5a8;
+      margin-top: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>─ 博士太郎の挑戦状 ─</h1>
+
+    <div class="intro-story">
+      博士太郎が修行に出て丸一日。<br>
+      本丸に、旅の最中の彼から手紙が届いた。<br><br>
+      「引き出しの二番目。そこに、設計図が入っているよ。<br>
+      すまないが皆で完成させてほしい。」
+    </div>
+
+    <div class="image-fake">（フェイク画像）</div>
+
+    <form id="answer-form">
+      <input id="answer" type="text" placeholder="答えを入力してください" required />
+      <button type="submit">送信</button>
+    </form>
+
+    <div id="result" class="result"></div>
+    <div id="story" class="story" style="display: none;"></div>  <!-- ←これを確認 -->
+    <div id="small-message" class="small-message"></div>
+
+    <div id="small-message" class="small-message"></div>
+
+    <div class="footer">— Nanmo kakukoto omoitukanai fotter©️ —</div>
+  </div>
+
+    <div class="day-buttons">
+    <button class="day-btn active-day">一日目</button>
+    <button class="day-btn" onclick="location.href='day2.html'">二日目</button>
+    <button class="day-btn" id="day3-btn">三日目</button>
+    <button class="day-btn" id="day4-btn">四日目</button>
+  </div>
+
+  <script>
+    // 解答チェック
+    document.getElementById("answer-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const input = document.getElementById("answer").value.trim();
+      const result = document.getElementById("result");
+
+      if (input === "そうち" || input === "装置") {
+        result.textContent = "解読成功";
+        result.style.color = "#e6d3a3";
+
+        story.innerHTML = `
+      <p>あなたは博士太郎の設計図を読み解いた。</p>
+      錆びた装置がかすかに唸り、内部の歯車が静かに噛み合う。<br>
+      ──これは、次なる挑戦への扉である。<br><br>
+    `;
+
+      // 表示をリセットしてからフェードイン
+      story.style.display = "block";
+      setTimeout(() => story.classList.add("show"), 50);
+
+    story.style.display = "block";
+
+      } else {
+        result.textContent = "……違うようだ。";
+        result.style.color = "#c77";
+      }
+    });
+
+    // 三・四日目メッセージ表示
+    const message = document.getElementById("small-message");
+
+    document.getElementById("day3-btn").addEventListener("click", () => {
+      message.textContent = "三日目は実装をお待ちください。";
+    });
+
+    document.getElementById("day4-btn").addEventListener("click", () => {
+      message.textContent = "最終日は実装をお待ちください。";
+    });
+  </script>
+</body>
+</html>
